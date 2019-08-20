@@ -48,7 +48,7 @@ public class DesignTacoController {
 		//save taco design, will do in chapter 3
 		log.info("Processing Design " + taco);
 
-		return "redirect:/orders/current";
+		return "redirect:/order/current";
 	}
 
 	private List<Ingredient> filterByType(List<Ingredient> list, Ingredient.Type type) {
