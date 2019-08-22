@@ -1,5 +1,6 @@
 package tacos.data.impl;
 
+import com.google.common.collect.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -8,6 +9,8 @@ import tacos.domain.Ingredient;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class JdbcIngredientRepository implements IngredientRepository {
@@ -19,8 +22,10 @@ public class JdbcIngredientRepository implements IngredientRepository {
 	}
 
 	@Override
-	public Iterable<Ingredient> findAll() {
-		return jdbc.query("select id, name, type from Ingredient", this::mapRowToIngredient);
+	public List<Ingredient> findAll() {
+		List<Ingredient> list = new ArrayList<>();
+		Iterables.addAll(list, jdbc.query("select id, name, type from Ingredient", this::mapRowToIngredient));
+		return list;
 	}
 
 	@Override
@@ -30,7 +35,11 @@ public class JdbcIngredientRepository implements IngredientRepository {
 
 	@Override
 	public Ingredient save(Ingredient ingredient) {
-		return new Ingredient("temp", "temp", Ingredient.Type.WRAP); //stub, remove
+		jdbc.update("insert into Ingredient (id, name, type) values (?, ?, ?)",
+				ingredient.getId(),
+				ingredient.getName(),
+				ingredient.getType().toString());
+		return ingredient;
 	}
 
 	private Ingredient mapRowToIngredient(ResultSet rs, int rowNum) throws SQLException {
