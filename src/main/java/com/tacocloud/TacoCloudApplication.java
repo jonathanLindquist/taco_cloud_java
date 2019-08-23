@@ -1,4 +1,4 @@
-package springinaction.tacocloud;
+package com.tacocloud;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
