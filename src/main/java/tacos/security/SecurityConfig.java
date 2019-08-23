@@ -15,8 +15,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-//		ldap authentication configuration
-
+//		------------ldap authentication configuration------------------
+//
 //		auth.ldapAuthentication()
 //				.userSearchBase("ou=people")
 //				.userSearchFilter("(uid={0})")
@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //						"select username, authority from UserAuthorities " +
 //								"where username=?")
 //				.passwordEncoder(new BCryptPasswordEncoder());
+
 
 //		----------in-memory example of user configuration-----------
 //
