@@ -1,14 +1,15 @@
-package tacos.security;
+package com.tacocloud.tacos.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import tacos.services.UserDetailsServiceImpl;
+import com.tacocloud.tacos.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -19,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //	@Autowired
 //	DataSource dataSource;
 
-	//		------------use custom user details service--------------
+	//		------------use custom registration details service--------------
 	@Bean
 	public PasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -29,9 +30,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsServiceImpl userDetailsService;
 
 	@Override
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity //Order of antMatchers is important, precedence is ordered from first to last
+				.authorizeRequests()
+				.antMatchers("/design", "/orders")
+					.hasRole("USER")
+				.antMatchers("/", "/**", "/console/*")
+					.permitAll()
+				.and()
+				.formLogin()
+					.loginPage("/login")
+					.defaultSuccessUrl("/design", true)
+				.and()
+					.logout()
+					.logoutSuccessUrl("/")
+				.and() // add to allow login to H2 embedded DB after adding Spring Security
+					.headers()
+					.frameOptions()
+					.disable()
+				.and() // disable csrf, not recommended (needed for access to embedded H2 console)
+					.csrf()
+					.disable();
+
+	}
+
+	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-//		------------use custom user details service--------------
+//		------------use custom registration details service--------------
 
 		auth.userDetailsService(userDetailsService)
 				.passwordEncoder(bCryptPasswordEncoder());
@@ -50,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		auth.ldapAuthentication()
 //				.contextSource() //use contextSource if LDAP server is not embedded, set URL to destination
 //				.root("dc=tacocloud,dc=com") // use root for embedded LDAP server
-//				.ldif("classpath:users.ldif"); // specify where ldap server should load user data
+//				.ldif("classpath:users.ldif"); // specify where ldap server should load registration data
 //				.url("ldap://tacocloud.com:389/dc=tacocloud,dc=com");
 
 
@@ -67,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //				.bCryptPasswordEncoder(new BCryptPasswordEncoder());
 
 
-//		----------in-memory example of user configuration-----------
+//		----------in-memory example of registration configuration-----------
 //
 //		auth.inMemoryAuthentication()
 //				.withUser("buzz")

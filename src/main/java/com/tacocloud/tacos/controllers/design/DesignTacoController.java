@@ -1,4 +1,4 @@
-package tacos.controllers.design;
+package com.tacocloud.tacos.controllers.design;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,11 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import tacos.data.IngredientRepository;
-import tacos.data.TacoRepository;
-import tacos.domain.Ingredient;
-import tacos.domain.Order;
-import tacos.domain.Taco;
+import com.tacocloud.tacos.data.IngredientRepository;
+import com.tacocloud.tacos.data.TacoRepository;
+import com.tacocloud.tacos.domain.Ingredient;
+import com.tacocloud.tacos.domain.Order;
+import com.tacocloud.tacos.domain.Taco;
 
 import javax.validation.Valid;
 import java.util.List;

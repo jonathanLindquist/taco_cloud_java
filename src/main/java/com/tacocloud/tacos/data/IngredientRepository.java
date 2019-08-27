@@ -1,8 +1,8 @@
-package tacos.data;
+package com.tacocloud.tacos.data;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import tacos.domain.Ingredient;
+import com.tacocloud.tacos.domain.Ingredient;
 
 import java.util.List;
 

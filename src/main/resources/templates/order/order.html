@@ -59,8 +59,15 @@
     <span class="ValidationError" th:if="${#fields.hasErrors('ccCVV')}" th:errors="*{ccCVV}">CC Num Error</span>
     <br/>
 
+    <!--CSRF token-->
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
     <input type="submit" value="Submit Order" />
   </form>
 
+
+  <form method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
+  </form>
 </body>
 </html>
