@@ -1,0 +1,6 @@
+debug: true
+#####    Application-specific Configuration    #########
+
+taco:
+  orders:
+    pageSize: 25

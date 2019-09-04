@@ -2,7 +2,7 @@
 
 logging:
   level:
-    root: WARN
+    root: INFO
     org:
       springframework:
         security: DEBUG
@@ -13,6 +13,12 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password:
-  jpa:
-    hibernate:
-      ddl-auto: none #this will turn off Hibernate's auto-configuration/population of the DB, will fall back to Spring Boot looking for schema.sql & data.sql
+#  jpa:
+#    hibernate:
+#       ddl-auto: none #this will turn off Hibernate's auto-configuration/population of the DB, will fall back to Spring Boot looking for schema.sql & data.sql
+
+#####    Application-specific Configuration    #########
+
+taco:
+  orders:
+    pageSize: 25
