@@ -28,15 +28,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // Spring-Boot test auto-configure
 //@RunWith(SpringRunner.class) //using JUnit 4
 @SpringBootTest
-@EnableConfigurationProperties(OrderProps.class)
-//@TestPropertySource(locations = "classpath:application-test.yml")
-//@EnableAutoConfiguration
-//@ContextConfiguration(initializers = ConfigFileApplicationContextInitializer.class)
+@EnableConfigurationProperties(OrderProps.class) //needed for creating ApplicationContext with configured properties
 @AutoConfigureMockMvc
 class TacoCloudApplicationTests {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	@Autowired
+	private ApplicationContext applicationContext;
 
 	@Test
 	void testLoginPage() throws Exception {
@@ -47,9 +47,17 @@ class TacoCloudApplicationTests {
 	}
 
 	@Test
-	void orderPropsLoadsCorrectly() {
-		OrderProps orderProps = new OrderProps();
+	void orderPropsLoadsCorrectly(@Autowired OrderProps autowiredProps) {
+		//application context will give configured bean
+		OrderProps orderProps = applicationContext.getBean(OrderProps.class);
 		assertEquals(25, orderProps.getPageSize());
+
+		//autowired orderProps will give configured bean
+		assertEquals(25, autowiredProps.getPageSize());
+
+		//Instantiating new OrderProps will create a new bean without the configured property
+		orderProps = new OrderProps();
+		assertEquals(20, orderProps.getPageSize());
 	}
 
 }
