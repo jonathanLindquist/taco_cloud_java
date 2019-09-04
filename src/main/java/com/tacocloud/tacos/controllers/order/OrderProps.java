@@ -11,7 +11,6 @@ import javax.validation.constraints.Min;
 @ConfigurationProperties(prefix="taco.orders")
 @Data
 @Validated
-@Scope(value="singleton")
 public class OrderProps {
 
 	@Min(value = 5, message = "must be between 5 and 25")
