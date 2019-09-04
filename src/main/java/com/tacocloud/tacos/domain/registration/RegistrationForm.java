@@ -1,4 +1,4 @@
-package com.tacocloud.tacos.domain.security;
+package com.tacocloud.tacos.domain.registration;
 
 import com.tacocloud.tacos.domain.User;
 import lombok.Data;
