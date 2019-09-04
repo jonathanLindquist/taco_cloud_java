@@ -15,4 +15,4 @@ spring:
     password:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: none #this will turn off Hibernate's auto-configuration/population of the DB, will fall back to Spring Boot looking for schema.sql & data.sql
